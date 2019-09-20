@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{ee364a HW1}
+\author{ilangold }
+\date{September 2019}
+
+\begin{document}
+
+\maketitle
+
+\section*{2.9}
+
+\subsection*{a}
+Let us look at a single inequality, for a given $j$ with components indexed  by $i$:
+\begin{center}
+    $\|x - x_0\|_2 \leq \|x - x_j\|_2 $ \\
+    \vspace{2mm}
+    $ \sum_{i=0}^{n}(x^i - x^i_0)^2 \leq \sum_{i=0}^{n}(x^i - x^i_j)^2$
+\end{center}
+We use some difference of squares magic and focus on one given $i$ to see that 
+\begin{center}
+    $0 \leq (x^i - x^i_j)^2 - (x^i - x^i_0)^2 = (x_0^i - x_j^i)(2x^i - x_0^i - x_j^i)$ \\
+    \vspace{2mm}
+    $0 \leq ((x_0^i - x_j^i)(2x^i)) - ((x_0^i)^2 - (x_j^i)^2)$ \\
+    \vspace{2mm}
+    $((x_0^i)^2 - (x_j^i)^2) \leq ((x_0^i - x_j^i)(2x^i))$
+\end{center}
+We can then apply this to each such $i$ in the summation and $j$ in the set of vectors that defines the Voronoi Region and can thus get an inequality that defines a polyhedron:
+\begin{center}
+    $\sum_{j=0}^{k} \sum_{i=0}^{n} ((x_0^i)^2 - (x_j^i)^2) \leq \sum_{j=0}^{k} \sum_{i=0}^{n} ((x_0^i - x_j^i)(2x^i))$ \\ 
+    \vspace{2mm}
+    $A x  \preceq b$
+\end{center}
+Where each $(i,j)$ pair in the matrix $A$ is defined as $-2(x_0^i - x_j^i)$ and each entry $j$ in the vector $b$ is $\sum_{i=0}^{n} ((x_0^i)^2 - (x_j^i)^2)$.
+
+Thus the Voronoi diagram is a Polyhedron as it is defined by a linear inequality.
+
+\subsection*{b}
+We note the following: if we have, for a given Polyhedron $P = \{x | a_i^Tx \leq b_i,\hspace{1mm} c_j^Tx = d_j, i = 1,...,n, j=1,...,p\}$, a point $x \in P$, then there exists $x_0,...,x_n$ such that $a_i^Tx_i \geq b_i$ and $c_j^Tx_i = d_j$ for all $j$ such that for any other $y \in P$, $\|x_0 - y\|_2 \leq \|x_i - y\|_2$ for all $i$.  This is a non-trivial statement, but has a simple formula to see that it is true, by setting each such $x_i$, $i > 0$ to a point in the normal direction of the halfspace that is exactly as far from the boundary of the halfspace as $x_0 \in P$. Indeed, this is simply $x_i = x_0 - 2(a_i^Tx_0 - b_i)a_i $. Then for any other $y \in P$, $\|x_0 - y\|_2 \leq \|x_i - y\|_2$ because $y$ lies on the same side of the hyperplane as $x_0$.  
+\subsection*{c}
+It is not always possible as your are not guaranteed to find the "mirror image" point for all the points such that that mirror image point is also the $x_0$ of another diagram.  Think about a very lopsided choice of points in a very acute X shaped-polyhderal decomposition
+
+\section*{2.12}
+\subsection*{a}
+A slab is a convex set as it is the intersection of two half-planes.
+\subsection*{b}
+A rectangle is a convex set: let $x_1, x_2 \in R$ where $R$ is a slab, and $0 \geq \theta \leq 1$. Then $\theta x_1_i + (1-\theta) x_2_i \leq \theta \beta_i + (1-\theta) \beta_i = \beta_i$ and $\theta x_1_i + (1-\theta) x_2_i \geq \theta \alpha_i + (1-\theta) \alpha_i = \alpha_i$
+\subsection*{c}
+A wedge is a convex set as it is the intersection of two half-planes.
+\subsection*{d}
+Assume this set $T = \{x | \|x-x_0\|_2 \leq \|x - y\|_2, y \in S \subset \mathbb{R}^n\}$ is not convex - then there is a point $x = \theta x_1 + (1-\theta) x_2 \notin T$ for $x_1, x_2 \in T$, $0 \leq \theta \leq 1 $.  But 
+\begin{center}
+    $\|\theta x_1 + (1-\theta)  x_2 - x_0\|_2  = \|\theta x_1 + (1-\theta)  x_2 - (\theta) x_0 - (1 - \theta)x_0\|_2$
+\end{center}
+so we then have that
+\begin{center}
+    $\|\theta x_1 + (1-\theta)  x_2 - x_0\|_2  \leq \|\theta x_1 - \theta x_0\|_2  + \|(1-\theta)  x_2 - (1 - \theta)x_0\|_2$
+    $\|\theta x_1 - \theta x_0\|_2  + \|(1-\theta)  x_2 - (1 - \theta)x_0\|_2 = \theta \| x_1 - x_0\|_2 + (1 - \theta) \|x_2 - x_0\|_2$
+\end{center}
+But we know that 
+\begin{center}
+    $\theta \| x_1 - x_0\|_2 + (1 - \theta) \|x_2 - x_0\|_2 \leq \theta \|x_1 - y\|_2 + (1 - \theta)\|x_2 - y\|_2$\\
+    $ \theta \|x_1 - y\|_2 - (\theta - 1)\|x_2 - y\|_2 \leq \| \theta (x_1 - y) - (\theta - 1)(x_2 - y)\|_2 =  \| \theta x_1 + (1-\theta)x_2 - y\|_2$
+\end{center}
+Thus is a contradiction, though, as $\|\theta x_1 + (1-\theta)  x_2 - x_0\|_2 \leq \| \theta x_1 + (1-\theta)x_2 - y\|_2$.
+\subsection*{e}
+This set is not convex.  Simply take $S = \{x \in \mathbb{R}^n| x_1 \geq 1\} \cup \{x | x_1 \leq -1\}$ and $T = {(0)_{i=0}^n}$ to form the convex set $Q$ of points closer to $S$ than $T$.  Clearly this set $Q$ is not convex as $x = (.75, 0, ..., 0), y= (-.75, 0, ..., 0) \in Q$ but $(0)_{i=0}^n = (.5(.75) + .5(-.75), .5(0) + .5(0), ..., .5(0) + .5(0)) \notin Q$. 
+\subsection*{f}
+Since $f: S_1 \rightarrow S_2, f(y) = y - x$ is affine for any $x$, $f(S_1) = S_1 - x$ implies $S_1 - x$ is convex for any $x$.  Thus $\cap_{x \in S_2} S_1 - x$ is convex - but this set is exactly $\{x | x + S_2 \subset S_1\}$ so we have shown that $\{x | x + S_2 \subset S_1\}$ is convex.  To see this, let $y \in \cap_{x \in S_2} S_1 - x$.  Then $y = x_1 - x_2$ for $x_1 \in S_1, x_2 \in S_2$ so $y + x_2 = x_1$ which implies that $y + S_2 \subset S_1$.  Conversely, if $y$ is a vector such that $y + S_2 \subset S_1$, then there exists  $x_1 \in S_1, x_2 \in S_2$ such that $y + x_2 = x_1$ so $y = x_1 - x_2$ and thus $y \in \cap_{x \in S_2} S_1 - x$.
+\subsection*{g}
+We know that $\|x-a\|_2 \leq \theta\|x-b\|_2$ implies that $\|<x,x> + <a,a> - 2<x,a> \leq \theta^2(<x,x> + <b,b> - 2<x,b>)\|$.  Now we by moving all the $x$ terms to one side:
+\begin{center}
+    $<x,x> + 2<x,a- \theta^2 b> \leq \frac{\|a-\theta^2 b\|_2}{(1-\theta^2)}$
+\end{center}
+Then we "complete the square" so:
+\begin{center}
+    $<x,x> + 2<x,a- \theta^2 b> + <a- \theta^2 b,a- \theta^2 b> \leq \frac{\|a-\theta^2 b\|_2}{(1-\theta^2)} - <a- \theta^2 b,a- \theta^2 b>$
+    $<x - (a- \theta^2 b),x - (a- \theta^2 b)> \leq \frac{\|a-\theta^2 b\|_2}{(1-\theta^2)} - \|a - \theta^2 b\|_2$
+\end{center}
+The final equation defines a euclidean ball and so the set is convex.
+\section*{2.15}
+\subsection*{a}
+Clearly we can describe $\mathbb{E} f(x) = \Sigma_{i=1}^{n}p_i f(a_i) = <p, f \bigodot x>$ and we know that then the inequalities each define a halfplane, giving us that this set is the intersection of two half-planes and thus convex.
+\subsection*{b}
+This set is definitely convex - define $p_1, p_2 \in P$.  Then for any $x$, we know that $prob_{p_1}(x > \alpha) = <(1|0)_{i=1}^{n}, p_1>$ and $prob_{p_2}(x > \alpha) = <(1|0)_{i=1}^{n}, p_2>$  where $(1|0)_{i=1}^{n}$ defines the places $i$ to be $0$ when $prob_{p_j}(x \leq \alpha)$ and $1$ otherwise.  This however defines an intersection of halfplanes as $p(x \geq \gamma) \geq 0$ for any probability $p$ and $\gamma$.
+\subsection*{c}
+Since expectation is linear, we know that $\mathbb{E} |x^3| \leq \alpha \mathbb{E} |x|$ is the same as 
+\begin{center}$E(|x^3| - \alpha |x|)\leq 0$\end{center} which is convex by the same reasoning as part a.
+\subsection*{d}
+Again, follows immediately from part a as before.
+\subsection*{e}
+Again, follows immediately from part a as before.
+\subsection*{f}
+We know $\textbf{var} (x) = \mathbb{E}(x^2) - (\mathbb{E}(x))^2 = \sum_{i=1}^{n} p_i a_i ^ 2 - (\sum_{i=1}^{n} p_i a_i)^2 \leq \alpha$ and can thus derive a simple counterexample.  Take $p_1 = (1,0)$, $p_2 = (0,1)$, $x = (2,1)$ and $\alpha = 0$.  Then we have that $p = (.5, .5)$ is not in the space.
+\subsection*{g}
+We know $\textbf{var} (x) = \mathbb{E}(x^2) - (\mathbb{E}(x))^2 = \sum_{i=1}^{n} p_i a_i ^ 2 - (\sum_{i=1}^{n} p_i a_i)^2 \geq \alpha$ and thus can describe this space in terms of a positive-semi-definite space, $a(p^T - p p^T)a^T \geq \alpha$ where the subtraction projects.
+\subsection*{h}
+Let $p_1, p_2 \in P$ and note that for any $\theta \in [0,1]$ and $\beta$ we have that $\theta p_1(x \geq \beta) + (1-\theta) p_2(x \geq \beta) \leq 1$ so this is a valid probability distribution.  Now let $quartile_{p_1}(x) = \beta_1$ and $quartile_{p_2}(x) = \beta_2$.  Finally let $\beta = min(\beta_1, \beta_2)$ and so we have that $\theta p_1(x \geq \beta) + (1-\theta) p_2(x \geq \beta) \geq .25$ and $\beta$ is the minimum such value for which this is true.  Thus we have that $\beta \leq \alpha$ and the set is convex.
+\subsection*{i}
+Simply flip the above final inequality and we have that the set is convex again.
+\section*{2.24}
+\subsection*{a}
+We know that the function $f(\textbf{x}) = x_1 - \frac{1}{x_2}$ describes the three dimensional convex set whose cross section $f(\textbf{x}) = 0$ is the set we are interested in, $C$.  Using basic calculus, we know that $<\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}>$ is the normal vector of the line that supports the set $C$ at any given point on $Bd(C)$.  Thus $\{y | [1, \frac{1}{x_2^2}] y \geq 2x_1\}$ describes the supporting halfspace at any given point $x = (x_1, x_2)$.  Let $y \in C$ and take any $x \in Bd(C)$.  Then
+\begin{center}
+    $[1, \frac{1}{x_2^2}] y = y_1 + \frac{x_1}{x_2}y_2$
+\end{center}
+since $x_1 = \frac{1}{x_2}$. We know that one of $y_1$ or $y_2$ is greater than one, at least, and then that whichever one is greater than one is greater than the other if the other is less than one (otherwise, they are both greater than one).   WLOG let $y_1$ be the greater of the two. Then
+\begin{center}
+    $y_1 + \frac{x_1}{x_2}y_2 \geq \frac{x_1 + x_2}{x_2} \geq 2x_1$
+\end{center}
+Thus $y$ is in the intersection of all halfspaces described by the normal vector to the supporting hyperplane at any point on the boundary of $C$.  Conversely, if $y$ is in the intersection of halfspaces, assume it were not in the convex set.  Then there exists a vector $x$ which is normal to the supporting hyperplane of $z \in Bd(C)$. But then we simply reverse the above logic to see it is in the convex set.
+\subsection*{b}
+There are $2n$ hyperplanes for the infinitiy norm ball in $\mathbb{R^N}$ described by the normal vectors with $0$ in all components except one, which is either $1$ or $-1$.  Then there are all planes through the points which are only $1$ or $-1$ along all components.
+\section*{A1.7}
+\subsection*{a} The dual cone here is the entire line $\mathbb{R}$.
+\subsection*{b} This is the origin only.
+\subsection*{c} The dual cone of this space is itself - any vector that is not in the space can be dotted with a vector in the space to produce a negative number as the angle can easily be made to be obtuse by choosing the right vector in the space.
+\subsection*{d} The dual cone of this space is the line orthogonal to it.
+\end{document}
